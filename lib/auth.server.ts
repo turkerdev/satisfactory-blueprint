@@ -1,6 +1,7 @@
 import { sessionStorage } from "lib/session.server";
 import { Authenticator } from "remix-auth";
 import { DiscordStrategy } from "remix-auth-socials";
+import { db } from "./db.server";
 import { env } from "./env.server";
 
 export const authenticator = new Authenticator<{ id: string }>(sessionStorage);
@@ -14,7 +15,20 @@ authenticator.use(
       scope: ["identify"],
     },
     async (user) => {
-      console.log(user);
+      await db.user.upsert({
+        where: {
+          provider_provider_id: {
+            provider: user.profile.provider,
+            provider_id: user.profile.id,
+          },
+        },
+        update: {},
+        create: {
+          provider: user.profile.provider,
+          provider_id: user.profile.id,
+        },
+      });
+
       return { id: user.profile.id };
     }
   )

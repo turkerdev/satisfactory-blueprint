@@ -11,7 +11,6 @@ export const action: ActionFunction = async ({ request, params }) => {
     })
     .parseAsync(Object.fromEntries(form));
   await authenticator.authenticate(provider, request);
-  return null;
 };
 
 export async function loader({ request }: LoaderArgs) {
