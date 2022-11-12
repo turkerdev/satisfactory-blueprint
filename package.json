@@ -11,13 +11,18 @@
     "@remix-run/react": "^1.7.5",
     "@remix-run/vercel": "^1.7.5",
     "@vercel/node": "^2.4.4",
+    "aws-sdk": "^2.1252.0",
+    "jszip": "^3.10.1",
+    "nanoid": "^3.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix-auth": "^3.3.0",
     "remix-auth-socials": "^1.0.2",
+    "slugify": "^1.6.5",
     "zod": "^3.19.1"
   },
   "devDependencies": {
+    "@aws-sdk/types": "^3.208.0",
     "@remix-run/dev": "^1.7.5",
     "@remix-run/eslint-config": "^1.7.5",
     "@remix-run/serve": "^1.7.5",

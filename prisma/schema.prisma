@@ -8,9 +8,20 @@ datasource db {
 }
 
 model User {
-  id          String @id @default(cuid())
+  id          String      @id @default(cuid())
   provider    String
   provider_id String
+  Blueprint   Blueprint[]
 
   @@unique([provider, provider_id])
+}
+
+model Blueprint {
+  id          String  @id
+  name        String
+  slug        String
+  description String?
+  publisher   User    @relation(fields: [userId], references: [id])
+
+  userId String
 }

@@ -15,7 +15,7 @@ authenticator.use(
       scope: ["identify"],
     },
     async (user) => {
-      await db.user.upsert({
+      const { id } = await db.user.upsert({
         where: {
           provider_provider_id: {
             provider: user.profile.provider,
@@ -29,7 +29,7 @@ authenticator.use(
         },
       });
 
-      return { id: user.profile.id };
+      return { id };
     }
   )
 );
