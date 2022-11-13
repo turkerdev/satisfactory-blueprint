@@ -1,6 +1,6 @@
 import type { ActionFunction, LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import JSZip from "jszip";
 import { authenticator } from "lib/auth.server";
 import { db } from "lib/db.server";
@@ -92,12 +92,26 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function Upload() {
-  const data = useActionData<typeof action>();
-
   return (
-    <div>
-      <Form method="post" encType="multipart/form-data">
-        <label htmlFor="blueprint-input">SBP</label>
+    <div className="w-fit mx-auto mt-12">
+      <Form
+        method="post"
+        encType="multipart/form-data"
+        className="flex flex-col gap-2"
+      >
+        <input
+          type="text"
+          name="name"
+          placeholder="Blueprint Name"
+          className="bg-transparent p-2 rounded border border-neutral-700 outline-none focus:border-red-500 focus:text-white text-neutral-300"
+        />
+        <input
+          type="text"
+          name="description"
+          placeholder="Description"
+          className="bg-transparent p-2 rounded border border-neutral-700 outline-none focus:border-red-500 focus:text-white text-neutral-300"
+        />
+        <label htmlFor="blueprint-input">Files</label>
         <input
           type="file"
           id="blueprint-input"
@@ -105,11 +119,12 @@ export default function Upload() {
           accept=".sbp, .sbpcfg"
           multiple
         />
-        <input type="text" name="name" placeholder="Blueprint Name" />
-        <input type="text" name="description" placeholder="Description" />
-        <button>Upload</button>
+        <input
+          type="submit"
+          value="Upload"
+          className="font-bold text-lg hover:bg-red-600 hover:text-white text-red-500 border border-red-600 rounded px-2 py-1 w-full text-center hover:cursor-pointer"
+        />
       </Form>
-      {data}
     </div>
   );
 }

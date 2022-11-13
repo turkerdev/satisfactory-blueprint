@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Login() {
   return (
-    <div>
+    <div className="flex flex-col w-fit mx-auto p-2 gap-3 mt-24">
       <Provider provider="discord" />
     </div>
   );
@@ -32,7 +32,12 @@ export function Provider({ provider }: { provider: string }) {
   return (
     <Form method="post">
       <input type="hidden" name="provider" value={provider} />
-      <button type="submit">Login via {provider}</button>
+      <button
+        className="bg-red-600 hover:bg-red-500 rounded px-2 py-1 w-full text-xl"
+        type="submit"
+      >
+        Login via <span className="capitalize">{provider}</span>
+      </button>
     </Form>
   );
 }
