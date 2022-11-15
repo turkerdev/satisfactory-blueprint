@@ -43,7 +43,7 @@ export default function App() {
       <body className="bg-[#1c1c1c] text-gray-100">
         <nav className="flex p-2 border-b border-b-neutral-500 gap-2 items-center">
           <Link to="/">
-            <h1 className="text-2xl text-red-400 hover:text-red-500">
+            <h1 className="text-2xl text-red-500 hover:text-white">
               Satisfactory Blueprints
             </h1>
           </Link>
@@ -60,7 +60,7 @@ export default function App() {
               <Form method="post" action="/logout">
                 <button
                   type="submit"
-                  className="border border-neutral-700 hover:bg-neutral-700 hover:border-neutral-600 px-2 py-1 rounded"
+                  className="hover:text-red-500 text-neutral-400 border border-neutral-700 px-2 py-1 rounded"
                 >
                   Log out
                 </button>

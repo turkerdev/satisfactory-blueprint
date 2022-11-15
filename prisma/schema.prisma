@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
@@ -17,11 +17,12 @@ model User {
 }
 
 model Blueprint {
-  id          String  @id
-  name        String
-  slug        String
-  description String?
-  publisher   User    @relation(fields: [userId], references: [id])
+  id             String  @id
+  name           String
+  slug           String
+  description    String?
+  download_count Int     @default(0)
+  publisher      User    @relation(fields: [userId], references: [id])
 
   userId String
 }
