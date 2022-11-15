@@ -22,10 +22,15 @@ authenticator.use(
             provider_id: user.profile.id,
           },
         },
-        update: {},
+        update: {
+          access_token: user.accessToken,
+          refresh_token: user.refreshToken,
+        },
         create: {
           provider: user.profile.provider,
           provider_id: user.profile.id,
+          access_token: user.accessToken,
+          refresh_token: user.refreshToken,
         },
       });
 

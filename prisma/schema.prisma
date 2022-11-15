@@ -8,10 +8,12 @@ datasource db {
 }
 
 model User {
-  id          String      @id @default(cuid())
-  provider    String
-  provider_id String
-  Blueprint   Blueprint[]
+  id            String      @id @default(cuid())
+  provider      String
+  provider_id   String
+  access_token  String
+  refresh_token String
+  Blueprint     Blueprint[]
 
   @@unique([provider, provider_id])
 }

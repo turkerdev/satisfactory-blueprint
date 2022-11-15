@@ -3,6 +3,8 @@ CREATE TABLE "User" (
     "id" STRING NOT NULL,
     "provider" STRING NOT NULL,
     "provider_id" STRING NOT NULL,
+    "access_token" STRING NOT NULL,
+    "refresh_token" STRING NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
