@@ -80,6 +80,13 @@ export default function App() {
         <main>
           <Outlet />
         </main>
+        <footer className="bottom-0 fixed flex flex-col text-neutral-400 w-full">
+          <p>Currently in beta. Please report any bugs or issues.</p>
+          <p>New features will be added soon.</p>
+          <a href="https://discord.gg/HtT7HgR72P" className="hover:text-white">
+            https://discord.gg/HtT7HgR72P
+          </a>
+        </footer>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
