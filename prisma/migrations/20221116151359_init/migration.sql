@@ -15,6 +15,7 @@ CREATE TABLE "Blueprint" (
     "name" STRING NOT NULL,
     "slug" STRING NOT NULL,
     "description" STRING,
+    "is_public" BOOL NOT NULL DEFAULT false,
     "download_count" INT4 NOT NULL DEFAULT 0,
     "userId" STRING NOT NULL,
 

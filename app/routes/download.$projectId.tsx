@@ -3,6 +3,7 @@ import { redirect } from "@remix-run/node";
 import { db } from "lib/db.server";
 import { env } from "lib/env.server";
 import { s3 } from "lib/s3.server";
+import { getSession } from "lib/session.server";
 import { z } from "zod";
 
 export async function loader({ params, request }: LoaderArgs) {
@@ -12,7 +13,20 @@ export async function loader({ params, request }: LoaderArgs) {
     })
     .parseAsync(params);
 
-  const bp = await db.blueprint.update({
+  const bp = await db.blueprint.findUnique({
+    where: { id: projectId },
+  });
+
+  if (!bp) {
+    throw redirect("/");
+  }
+
+  const session = await getSession(request.headers.get("Cookie"));
+  if (!bp.is_public && bp.userId !== session?.data?.user?.id) {
+    throw redirect("/");
+  }
+
+  await db.blueprint.update({
     where: { id: projectId },
     data: {
       download_count: { increment: 1 },

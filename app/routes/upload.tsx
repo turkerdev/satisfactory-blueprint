@@ -48,9 +48,8 @@ export const action: ActionFunction = async ({ request }) => {
       description: z.string().optional(),
     })
     .parseAsync({
+      ...Object.fromEntries(form),
       files: form.getAll("files"),
-      name: form.get("name"),
-      description: form.get("description"),
     });
 
   const projectId = nanoid(4);
@@ -111,7 +110,7 @@ export default function Upload() {
           placeholder="Description"
           className="bg-transparent p-2 rounded border border-neutral-700 outline-none focus:border-red-500 focus:text-white text-neutral-300"
         />
-        <label htmlFor="blueprint-input">Files</label>
+        <label htmlFor="blueprint-input">Files (.sbp & .sbpcfg)</label>
         <input
           type="file"
           id="blueprint-input"

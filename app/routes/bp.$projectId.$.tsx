@@ -2,10 +2,11 @@ import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { db } from "lib/db.server";
-import { DownloadSimple } from "phosphor-react";
+import { getSession } from "lib/session.server";
+import { DownloadSimple, Lock } from "phosphor-react";
 import { z } from "zod";
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params, request }: LoaderArgs) {
   const { projectId, "*": splat } = await z
     .object({
       projectId: z.string(),
@@ -21,6 +22,11 @@ export async function loader({ params }: LoaderArgs) {
     throw redirect("/");
   }
 
+  const session = await getSession(request.headers.get("Cookie"));
+  if (!bp.is_public && bp.userId !== session?.data?.user?.id) {
+    throw redirect("/");
+  }
+
   if (splat !== bp.slug) {
     throw redirect(bp.slug);
   }
@@ -30,6 +36,7 @@ export async function loader({ params }: LoaderArgs) {
     name: bp.name,
     description: bp.description,
     download_count: bp.download_count,
+    is_public: bp.is_public,
   };
 }
 
@@ -39,6 +46,15 @@ export default function Index() {
   return (
     <div className="flex w-fit mx-auto gap-4">
       <div className="p-4 lg:w-[720px] mx-auto flex flex-col gap-2">
+        {!data.is_public && (
+          <div className="text-red-500">
+            <Lock className="inline-block mr-4 text-red-500" size={26} />
+            <span>
+              Currently, this Blueprint is private. Either it is inappropriate
+              or still not approved by the moderators.
+            </span>
+          </div>
+        )}
         <h1 className="text-center capitalize text-4xl mb-10">{data.name}</h1>
         <p className="">{data.description || "No description"}</p>
       </div>

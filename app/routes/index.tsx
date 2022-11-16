@@ -5,6 +5,9 @@ import { DownloadSimple } from "phosphor-react";
 
 export async function loader({}: LoaderArgs) {
   return await db.blueprint.findMany({
+    where: {
+      is_public: true,
+    },
     select: {
       id: true,
       name: true,
