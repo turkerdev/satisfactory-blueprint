@@ -1,9 +1,8 @@
-import type { LoaderArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { db } from "lib/db.server";
 import { DownloadSimple } from "phosphor-react";
 
-export async function loader({}: LoaderArgs) {
+export async function loader() {
   return await db.blueprint.findMany({
     where: {
       is_public: true,
@@ -14,6 +13,9 @@ export async function loader({}: LoaderArgs) {
       slug: true,
       download_count: true,
       description: true,
+    },
+    orderBy: {
+      download_count: "desc",
     },
   });
 }
@@ -26,18 +28,18 @@ export default function Index() {
       {data.map((bp) => (
         <div
           key={bp.id}
-          className="p-2 border-b border-t border-neutral-600 flex flex-col gap-2"
+          className="p-2 border rounded border-neutral-600 flex flex-col gap-2"
         >
           <Link
             to={`/bp/${bp.id}/${bp.slug}`}
-            className="mb-1 text-red-400 text-lg hover:text-white"
+            className="mb-1 text-red-400 text-2xl hover:text-white overflow-hidden"
           >
             {bp.name}
           </Link>
           <Link to={`/bp/${bp.id}/${bp.slug}`}>
-            <p>{bp.description}</p>
+            <p className="overflow-hidden">{bp.description}</p>
           </Link>
-          <div className="flex justify-around mt-auto">
+          <div className="flex justify-around mt-auto border-t pt-2 border-neutral-600">
             <span className="flex gap-2 items-center text-neutral-400">
               <DownloadSimple size={24} /> {bp.download_count}
             </span>

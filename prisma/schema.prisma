@@ -19,15 +19,16 @@ model User {
 }
 
 model Blueprint {
-  id             String  @id
+  id             String   @id
   name           String
   slug           String
   description    String
+  created_at     DateTime @default(now())
   content        String?
   content_md     String?
-  is_public      Boolean @default(false)
-  download_count Int     @default(0)
-  publisher      User    @relation(fields: [userId], references: [id])
+  is_public      Boolean  @default(false)
+  download_count Int      @default(0)
+  publisher      User     @relation(fields: [userId], references: [id])
 
   userId String
 }
