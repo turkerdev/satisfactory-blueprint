@@ -34,7 +34,7 @@ export async function loader({ params, request }: LoaderArgs) {
   return {
     projectId,
     name: bp.name,
-    description: bp.description,
+    content_md: bp.content_md,
     download_count: bp.download_count,
     is_public: bp.is_public,
   };
@@ -56,7 +56,12 @@ export default function Index() {
           </div>
         )}
         <h1 className="text-center capitalize text-4xl mb-10">{data.name}</h1>
-        <p className="">{data.description || "No description"}</p>
+        <div
+          className="prose prose-invert"
+          dangerouslySetInnerHTML={{
+            __html: data.content_md || "No content",
+          }}
+        />
       </div>
       <div className="w-[196px] mt-24 p-2 pl-4 flex flex-col gap-2 border-l border-neutral-700">
         <a

@@ -35,7 +35,7 @@ export default function Index() {
             {bp.name}
           </Link>
           <Link to={`/bp/${bp.id}/${bp.slug}`}>
-            <p>{bp.description?.substring(0, 200)}</p>
+            <p>{bp.description}</p>
           </Link>
           <div className="flex justify-around mt-auto">
             <span className="flex gap-2 items-center text-neutral-400">

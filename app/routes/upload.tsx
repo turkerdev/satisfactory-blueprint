@@ -6,6 +6,7 @@ import { authenticator } from "lib/auth.server";
 import { db } from "lib/db.server";
 import { env } from "lib/env.server";
 import { s3 } from "lib/s3.server";
+import { marked } from "marked";
 import { nanoid } from "nanoid";
 import slugify from "slugify";
 import { z } from "zod";
@@ -44,8 +45,11 @@ export const action: ActionFunction = async ({ request }) => {
         }, "I sense some shenanigans going on here"),
       name: z
         .string()
+        .min(10)
+        .max(64)
         .transform((value) => ({ name: value, slug: slugify(value) })),
-      description: z.string().optional(),
+      description: z.string().min(10).max(240),
+      content: z.string().optional(),
     })
     .parseAsync({
       ...Object.fromEntries(form),
@@ -76,6 +80,8 @@ export const action: ActionFunction = async ({ request }) => {
       name: data.name.name,
       slug: data.name.slug,
       description: data.description,
+      content: data.content,
+      content_md: data.content ? marked.parse(data.content) : undefined,
       publisher: { connect: { id: user.id } },
     },
   });
@@ -98,16 +104,31 @@ export default function Upload() {
         encType="multipart/form-data"
         className="flex flex-col gap-2"
       >
+        <label htmlFor="name-input">Blueprint Name</label>
         <input
           type="text"
           name="name"
+          id="name-input"
           placeholder="Blueprint Name"
+          maxLength={64}
+          minLength={10}
           className="bg-transparent p-2 rounded border border-neutral-700 outline-none focus:border-red-500 focus:text-white text-neutral-300"
         />
+        <label htmlFor="description-input">Description (240 character)</label>
         <input
           type="text"
           name="description"
+          id="description-input"
           placeholder="Description"
+          maxLength={240}
+          minLength={10}
+          className="bg-transparent p-2 rounded border border-neutral-700 outline-none focus:border-red-500 focus:text-white text-neutral-300"
+        />
+        <label htmlFor="content-input">Content (Markdown supported)</label>
+        <textarea
+          name="content"
+          id="content-input"
+          placeholder="No content"
           className="bg-transparent p-2 rounded border border-neutral-700 outline-none focus:border-red-500 focus:text-white text-neutral-300"
         />
         <label htmlFor="blueprint-input">Files (.sbp & .sbpcfg)</label>

@@ -22,7 +22,9 @@ model Blueprint {
   id             String  @id
   name           String
   slug           String
-  description    String?
+  description    String
+  content        String?
+  content_md     String?
   is_public      Boolean @default(false)
   download_count Int     @default(0)
   publisher      User    @relation(fields: [userId], references: [id])
