@@ -80,9 +80,11 @@ export default function App() {
         <main>
           <Outlet />
         </main>
-        <footer className="bottom-0 fixed flex flex-col text-neutral-400 max-w-fit">
-          <p>Currently in beta. Please report any bugs or issues.</p>
-          <p>New features will be added soon.</p>
+        <footer className="bottom-0 fixed flex flex-col text-neutral-400 max-w-[360px] opacity-50">
+          <p>
+            This website still needs a lot of work. If you have any suggestions
+            or find any bugs, please let me know.
+          </p>
           <a href="https://discord.gg/HtT7HgR72P" className="hover:text-white ">
             https://discord.gg/HtT7HgR72P
           </a>
