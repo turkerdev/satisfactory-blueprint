@@ -50,6 +50,14 @@ export const action: ActionFunction = async ({ request }) => {
         .transform((value) => ({ name: value, slug: slugify(value) })),
       description: z.string().min(10).max(240),
       content: z.string().optional(),
+      thumbnail: z
+        .instanceof(File)
+        .refine((file) => file.size < 1024 * 500, "Must be less than 500kb")
+        .refine(
+          (file) =>
+            ["image/png", "image/jpeg", "image/jpg"].includes(file.type),
+          "Must be an image"
+        ),
     })
     .parseAsync({
       ...Object.fromEntries(form),
@@ -74,15 +82,25 @@ export const action: ActionFunction = async ({ request }) => {
     })
     .promise();
 
+  const { Key: thumbnail_key } = await s3
+    .upload({
+      Bucket: env.CF_BUCKET_IMG,
+      Key: nanoid(),
+      Body: Buffer.from(await data.thumbnail.arrayBuffer()),
+      ContentType: data.thumbnail.type,
+    })
+    .promise();
+
   await db.blueprint.create({
     data: {
+      publisher: { connect: { id: user.id } },
+      thumbnail_key,
       id: projectId,
       name: data.name.name,
       slug: data.name.slug,
       description: data.description,
       content: data.content,
       content_md: data.content ? marked.parse(data.content) : undefined,
-      publisher: { connect: { id: user.id } },
     },
   });
 
@@ -110,6 +128,7 @@ export default function Upload() {
           name="name"
           id="name-input"
           placeholder="Blueprint Name"
+          required
           maxLength={64}
           minLength={10}
           className="bg-transparent p-2 rounded border border-neutral-700 outline-none focus:border-red-500 focus:text-white text-neutral-300"
@@ -122,6 +141,7 @@ export default function Upload() {
           placeholder="Description"
           maxLength={240}
           minLength={10}
+          required
           className="bg-transparent p-2 rounded border border-neutral-700 outline-none focus:border-red-500 focus:text-white text-neutral-300"
         />
         <label htmlFor="content-input">Content (Markdown supported)</label>
@@ -138,6 +158,15 @@ export default function Upload() {
           name="files"
           accept=".sbp, .sbpcfg"
           multiple
+          required
+        />
+        <label htmlFor="thumbnail-input">Thumbnail (500KB)</label>
+        <input
+          type="file"
+          id="thumbnail-input"
+          name="thumbnail"
+          accept=".png, .jpeg, .jpg"
+          required
         />
         <input
           type="submit"

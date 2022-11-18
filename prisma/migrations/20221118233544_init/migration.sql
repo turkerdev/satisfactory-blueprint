@@ -16,6 +16,7 @@ CREATE TABLE "Blueprint" (
     "slug" STRING NOT NULL,
     "description" STRING NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "thumbnail_key" STRING NOT NULL,
     "content" STRING,
     "content_md" STRING,
     "is_public" BOOL NOT NULL DEFAULT false,

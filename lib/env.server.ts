@@ -10,7 +10,8 @@ const schema = z.object({
   CF_ACCESS_ID: z.string(),
   CF_ACCESS_SECRET: z.string(),
   CF_BUCKET: z.string(),
-  CF_PUBLIC_URL: z.string().url(),
+  CF_BUCKET_IMG: z.string(),
+  CF_PUBLIC_IMG_URL: z.string().url(),
 });
 
 export const env = schema.parse(process.env);

@@ -24,6 +24,7 @@ model Blueprint {
   slug           String
   description    String
   created_at     DateTime @default(now())
+  thumbnail_key  String
   content        String?
   content_md     String?
   is_public      Boolean  @default(false)

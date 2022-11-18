@@ -7,6 +7,7 @@ type Props = {
   slug: string;
   description: string;
   download_count: number;
+  thumbnail: string;
 };
 
 export default function BlueprintCard({
@@ -15,6 +16,7 @@ export default function BlueprintCard({
   description,
   download_count,
   slug,
+  thumbnail,
 }: Props) {
   return (
     <div
@@ -23,14 +25,19 @@ export default function BlueprintCard({
     >
       <Link
         to={`/bp/${id}/${slug}`}
-        className="mb-1 text-red-400 text-2xl hover:text-white overflow-hidden"
+        className="text-red-400 text-2xl hover:text-white overflow-hidden"
       >
         {name}
       </Link>
       <Link to={`/bp/${id}/${slug}`}>
         <p className="overflow-hidden">{description}</p>
       </Link>
-      <div className="flex justify-around mt-auto border-t pt-2 border-neutral-600">
+      <img
+        src={thumbnail}
+        alt="Thumbnail"
+        className="mx-auto aspect-video h-32 mt-auto"
+      />
+      <div className="flex justify-around border-t pt-2 border-neutral-600">
         <span className="flex gap-2 items-center text-neutral-400">
           <DownloadSimple size={24} /> {download_count}
         </span>
