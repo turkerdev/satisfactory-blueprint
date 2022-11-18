@@ -32,7 +32,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function App() {
-  const data = useLoaderData<typeof loader>();
+  const { user } = useLoaderData<typeof loader>();
 
   return (
     <html lang="en">
@@ -41,7 +41,7 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-[#1c1c1c] text-gray-100">
-        <Header user={data.user} />
+        <Header user={user} />
         <main>
           <Outlet />
         </main>

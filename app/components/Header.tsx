@@ -1,6 +1,10 @@
 import { Form, Link } from "@remix-run/react";
 
-export default function Header({ user }: { user: { id: string } | null }) {
+type Props = {
+  user: { id: string } | null;
+};
+
+export default function Header({ user }: Props) {
   return (
     <nav className="flex p-2 border-b border-b-neutral-500 gap-2 items-center">
       <Link to="/">
