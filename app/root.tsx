@@ -1,7 +1,5 @@
 import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import {
-  Form,
-  Link,
   Links,
   LiveReload,
   Meta,
@@ -11,6 +9,8 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { authenticator } from "lib/auth.server";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 import styles from "./styles/app.css";
 
 export function links() {
@@ -41,54 +41,11 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-[#1c1c1c] text-gray-100">
-        <nav className="flex p-2 border-b border-b-neutral-500 gap-2 items-center">
-          <Link to="/">
-            <h1 className="text-2xl text-red-500 hover:text-white">
-              Satisfactory Blueprints
-            </h1>
-          </Link>
-          <span className="ml-auto" />
-          {data.user ? (
-            <>
-              <Link
-                to="/upload"
-                className="hover:bg-red-600 hover:text-white text-red-500 border border-red-600 rounded py-1 px-3"
-              >
-                Upload
-              </Link>
-              <p>{data.user.id}</p>
-              <Form method="post" action="/logout">
-                <button
-                  type="submit"
-                  className="hover:text-red-500 text-neutral-400 border border-neutral-700 px-2 py-1 rounded"
-                >
-                  Log out
-                </button>
-              </Form>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/login"
-                className="bg-red-600 hover:bg-red-500 text-white rounded py-1 px-3"
-              >
-                Log in
-              </Link>
-            </>
-          )}
-        </nav>
+        <Header user={data.user} />
         <main>
           <Outlet />
         </main>
-        <footer className="bottom-0 fixed flex flex-col text-neutral-400 max-w-[360px] opacity-50">
-          <p>
-            This website still needs a lot of work. If you have any suggestions
-            or find any bugs, please let me know.
-          </p>
-          <a href="https://discord.gg/HtT7HgR72P" className="hover:text-white ">
-            https://discord.gg/HtT7HgR72P
-          </a>
-        </footer>
+        <Footer />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
