@@ -6,4 +6,5 @@ export const s3 = new S3({
   accessKeyId: env.CF_ACCESS_ID,
   secretAccessKey: env.CF_ACCESS_SECRET,
   signatureVersion: "v4",
+  region: "auto",
 });
